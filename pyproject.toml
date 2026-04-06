@@ -1,0 +1,8 @@
+[project]
+name = "dataclean-rl"
+version = "0.1.0"
+description = "RL environment for data cleaning tasks"
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["api", "env", "models", "tasks", "graders", "baseline"]
