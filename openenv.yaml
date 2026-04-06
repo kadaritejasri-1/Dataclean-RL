@@ -1,0 +1,19 @@
+name: dataclean-rl
+description: RL environment for real-world data cleaning tasks
+version: 1.0
+
+entrypoint: api.main:app
+
+tasks:
+  - easy
+  - medium
+  - hard
+
+actions:
+  - fix_missing
+  - remove_duplicates
+  - convert_type
+  - normalize_text
+  - drop_row
+  - fill_default
+  - rename_column
