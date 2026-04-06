@@ -4,5 +4,16 @@ version = "0.1.0"
 description = "RL environment for data cleaning tasks"
 requires-python = ">=3.10"
 
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "requests",
+    "pydantic",
+    "openenv-core>=0.2.0"
+]
+
+[project.scripts]
+server = "server.app:main"
+
 [tool.setuptools]
-packages = ["api", "env", "models", "tasks", "graders", "baseline"]
+packages = ["api", "env", "models", "tasks", "graders", "baseline", "server"]
