@@ -1,6 +1,11 @@
 import os
 import requests
-from openai import OpenAI
+try:
+    from openai import OpenAI
+except Exception as e:
+    print("[STEP] step=0 action=error reward=0.00 done=true error=openai_import_failed", flush=True)
+    print("[END] success=false steps=0 score=0.00 rewards=", flush=True)
+    exit(0)
 
 # REQUIRED ENV VARIABLES
 API_BASE_URL = os.getenv("API_BASE_URL")
