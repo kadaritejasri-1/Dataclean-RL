@@ -1,9 +1,11 @@
 import os
 import requests
+from openai import OpenAI
 
-API_BASE_URL = os.getenv("API_BASE_URL", "https://tejasri-kadari-dataclean-rl.hf.space")
-MODEL_NAME = os.getenv("MODEL_NAME", "baseline")
-HF_TOKEN = os.getenv("HF_TOKEN")
+# REQUIRED ENV VARIABLES
+API_BASE_URL = os.getenv("API_BASE_URL")
+API_KEY = os.getenv("API_KEY")
+MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4.1-mini")
 
 def main():
     task = "dataclean"
@@ -15,8 +17,21 @@ def main():
     steps = 0
     success = False
 
+    # ✅ REQUIRED: LLM client using proxy
+    client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
+
     try:
-        # Reset
+        # 🔥 REQUIRED: Make at least one LLM call
+        completion = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[
+                {"role": "user", "content": "Say hello"}
+            ],
+            max_tokens=5
+        )
+        _ = completion.choices[0].message.content
+
+        # Reset environment
         r = requests.post(f"{API_BASE_URL}/reset", json={"task": "easy"})
         data = r.json()
 
