@@ -2,14 +2,14 @@ import os
 import requests
 try:
     from openai import OpenAI
-except Exception as e:
+except Exception:
+    print("[START] task=dataclean env=dataclean-rl model=unknown", flush=True)
     print("[STEP] step=0 action=error reward=0.00 done=true error=openai_import_failed", flush=True)
-    print("[END] success=false steps=0 score=0.00 rewards=", flush=True)
+    print("[END] success=false steps=0 score=0.00 rewards=0.00", flush=True)
     exit(0)
 
-# REQUIRED ENV VARIABLES
-API_BASE_URL = os.getenv("API_BASE_URL")
-API_KEY = os.getenv("API_KEY")
+API_BASE_URL = os.getenv("API_BASE_URL") or "http://localhost:8000"
+API_KEY = os.getenv("API_KEY", "test")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4.1-mini")
 
 def main():
@@ -22,21 +22,16 @@ def main():
     steps = 0
     success = False
 
-    # ✅ REQUIRED: LLM client using proxy
     client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
 
     try:
-        # 🔥 REQUIRED: Make at least one LLM call
         completion = client.chat.completions.create(
             model=MODEL_NAME,
-            messages=[
-                {"role": "user", "content": "Say hello"}
-            ],
+            messages=[{"role": "user", "content": "Say hello"}],
             max_tokens=5
         )
         _ = completion.choices[0].message.content
 
-        # Reset environment
         r = requests.post(f"{API_BASE_URL}/reset", json={"task": "easy"})
         data = r.json()
 
@@ -59,7 +54,6 @@ def main():
                 flush=True,
             )
 
-        # Final score
         r = requests.get(f"{API_BASE_URL}/grader")
         score = float(r.json().get("score", 0))
 
@@ -69,11 +63,12 @@ def main():
         print(f"[STEP] step={steps} action=error reward=0.00 done=true error={str(e)}", flush=True)
         score = 0.0
 
+    rewards_str = ",".join(f"{r:.2f}" for r in rewards) if rewards else "0.00"
+
     print(
-        f"[END] success={str(success).lower()} steps={steps} score={score:.2f} rewards={','.join(f'{r:.2f}' for r in rewards)}",
+        f"[END] success={str(success).lower()} steps={steps} score={score:.2f} rewards={rewards_str}",
         flush=True,
     )
-
 
 if __name__ == "__main__":
     main()
