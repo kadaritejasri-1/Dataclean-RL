@@ -89,7 +89,7 @@ def get_tasks():
 def grader():
     score = grade(env.data)
 
-    # 🔥 force valid range again (safety)
+    # force valid range again (safety)
     if score <= 0:
         score = 0.1
     elif score >= 1:
