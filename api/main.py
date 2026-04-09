@@ -24,10 +24,21 @@ TASKS = {
 # RESET
 # -------------------------
 @app.post("/reset")
-def reset(task_name: str = "easy"):
-    data = TASKS.get(task_name, task_easy)
-    obs = env.reset(data, task_name)
-    return obs
+def reset(payload: dict):
+    task = payload.get("task", "easy")
+
+    if task == "easy":
+        data = task_easy()
+    elif task == "medium":
+        data = task_medium()
+    elif task == "hard":
+        data = task_hard()
+    else:
+        data = task_easy()
+
+    env.load_data(data)
+
+    return {"message": f"{task} task loaded"}
 
 
 # -------------------------
