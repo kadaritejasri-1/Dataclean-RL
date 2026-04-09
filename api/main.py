@@ -23,9 +23,28 @@ TASKS = {
 # -------------------------
 # RESET
 # -------------------------
+from pydantic import BaseModel
+
+class ResetRequest(BaseModel):
+    task: str = "easy"
+
+
 @app.post("/reset")
-def reset(payload: dict):
-    task = payload.get("task", "easy")
+def reset(req: ResetRequest):
+    task = req.task
+
+    if task == "easy":
+        data = task_easy()
+    elif task == "medium":
+        data = task_medium()
+    elif task == "hard":
+        data = task_hard()
+    else:
+        data = task_easy()
+
+    env.load_data(data)
+
+    return {"message": f"{task} task loaded"}
 
     if task == "easy":
         data = task_easy()
