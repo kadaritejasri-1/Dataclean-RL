@@ -46,7 +46,7 @@ def grade(df: pd.DataFrame) -> float:
     if len(df) >= 2:
         score += 1
 
-    # 🔥 FINAL FIX
+  
     final_score = score / total
 
     if final_score <= 0:
