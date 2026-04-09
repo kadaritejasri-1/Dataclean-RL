@@ -17,10 +17,7 @@ def grade(df: pd.DataFrame) -> float:
     type_ok = True
     if "age" in df.columns:
         try:
-            # convert safely
             df["age"] = pd.to_numeric(df["age"], errors="coerce")
-
-            # check no NaN introduced & all integers
             if df["age"].isnull().any() or not (df["age"] % 1 == 0).all():
                 type_ok = False
         except:
@@ -49,5 +46,12 @@ def grade(df: pd.DataFrame) -> float:
     if len(df) >= 2:
         score += 1
 
-    # Final normalized score
-    return round(score / total, 3)
+    # 🔥 FINAL FIX
+    final_score = score / total
+
+    if final_score <= 0:
+        final_score = 0.1
+    elif final_score >= 1:
+        final_score = 0.9
+
+    return round(final_score, 3)
