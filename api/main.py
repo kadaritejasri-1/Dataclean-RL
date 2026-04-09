@@ -86,8 +86,16 @@ def get_tasks():
 # GRADER
 # -------------------------
 @app.get("/grader")
-def get_score():
-    return {"score": grade(env.df)}
+def grader():
+    score = grade(env.data)
+
+    # 🔥 force valid range again (safety)
+    if score <= 0:
+        score = 0.1
+    elif score >= 1:
+        score = 0.9
+
+    return {"score": score}
 
 
 # -------------------------
