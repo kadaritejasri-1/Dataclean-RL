@@ -1,9 +1,5 @@
 import os
 import requests
-
-# -------------------------
-# SAFE IMPORT
-# -------------------------
 try:
     from openai import OpenAI
 except Exception:
@@ -11,16 +7,11 @@ except Exception:
     print("[END] success=false steps=0 score=0.10 rewards=", flush=True)
     exit(0)
 
-# -------------------------
-# ENV VARIABLES (REQUIRED)
-# -------------------------
+
 API_BASE_URL = os.getenv("API_BASE_URL")
 API_KEY = os.getenv("API_KEY")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4.1-mini")
 
-# -------------------------
-# MAIN
-# -------------------------
 def main():
     env = "dataclean-rl"
     tasks = ["easy", "medium", "hard"]
@@ -102,7 +93,7 @@ def main():
         )
 
 
-# -------------------------
+
 # RUN
 # -------------------------
 if __name__ == "__main__":
