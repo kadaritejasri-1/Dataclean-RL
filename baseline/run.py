@@ -2,12 +2,11 @@ import os
 import requests
 from openai import OpenAI
 
-# Environment variables (REQUIRED FORMAT)
+
 API_BASE_URL = os.getenv("API_BASE_URL", "https://tejasri-kadari-dataclean-rl.hf.space")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4.1-mini")
 HF_TOKEN = os.getenv("HF_TOKEN")
 
-# Safe OpenAI client initialization
 if HF_TOKEN:
     client = OpenAI(api_key=HF_TOKEN)
 else:
@@ -17,7 +16,6 @@ else:
 def run_task(task_name):
     print(f"START task={task_name}")
 
-    # Reset environment
     r = requests.post(f"{API_BASE_URL}/reset", json={"task": task_name})
     obs = r.json()
 
@@ -25,7 +23,6 @@ def run_task(task_name):
     total_reward = 0
 
     while not done:
-        # Simple baseline action (can be improved later)
         action = {"action_type": "remove_duplicates"}
 
         r = requests.post(f"{API_BASE_URL}/step", json=action)
