@@ -14,9 +14,7 @@ app = FastAPI()
 
 env = DataCleanEnv()
 
-# -------------------------
-# TASKS
-# -------------------------
+
 TASKS = {
     "easy": task_easy,
     "medium": task_medium,
@@ -26,22 +24,17 @@ TASKS = {
 task_list = ["easy", "medium", "hard"]
 current_task_index = 0
 
-# -------------------------
-# REQUEST MODELS
-# -------------------------
+
 class ResetRequest(BaseModel):
     task: str = "easy"
 
 
-# -------------------------
-# RESET (FINAL FIX: TASK ROTATION)
-# -------------------------
 @app.post("/reset")
 def reset(req: Optional[ResetRequest] = None):
     global current_task_index
 
     try:
-        # Use provided task OR rotate automatically
+        
         if req and req.task:
             task = req.task
         else:
@@ -66,9 +59,6 @@ def reset(req: Optional[ResetRequest] = None):
         return {"error": str(e)}
 
 
-# -------------------------
-# STEP (SAFE)
-# -------------------------
 @app.post("/step")
 def step(action: Optional[Action] = None):
     try:
@@ -110,10 +100,6 @@ def step(action: Optional[Action] = None):
             "info": {"error": str(e)}
         }
 
-
-# -------------------------
-# STATE
-# -------------------------
 @app.get("/state")
 def state():
     try:
@@ -123,9 +109,6 @@ def state():
         return {"error": str(e)}
 
 
-# -------------------------
-# TASKS LIST
-# -------------------------
 @app.get("/tasks")
 def get_tasks():
     return {
@@ -142,15 +125,11 @@ def get_tasks():
     }
 
 
-# -------------------------
-# GRADER (STRICT RANGE FIX)
-# -------------------------
 @app.get("/grader")
 def grader():
     try:
         score = grade(env.data)
 
-        # STRICT FIX: never 0 or 1
         if score <= 0:
             score = 0.1
         elif score >= 1:
@@ -163,9 +142,6 @@ def grader():
         return {"score": 0.1}
 
 
-# -------------------------
-# BASELINE
-# -------------------------
 @app.get("/baseline")
 def run_baseline():
     scores = {}
@@ -193,10 +169,6 @@ def run_baseline():
         print(traceback.format_exc())
         return {"error": str(e)}
 
-
-# -------------------------
-# ROOT (OPTIONAL)
-# -------------------------
 @app.get("/")
 def root():
     return {"message": "DataClean RL API running"}
