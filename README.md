@@ -17,9 +17,9 @@ Agents can perform the following actions:
 - remove_duplicates  
 - convert_type  
 - normalize_text  
-- drop_row  
 - fill_default  
-- rename_column  
+- rename_column
+- drop_row
 
 ## Reward Design
 - Positive reward for correct cleaning actions  
@@ -45,3 +45,4 @@ Live Demo
 
 Hugging Face Space:
 https://tejasri-kadari-dataclean-rl.hf.space/docs
+
