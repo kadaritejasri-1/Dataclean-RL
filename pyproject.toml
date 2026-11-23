@@ -12,9 +12,10 @@ dependencies = [
     "openai",            
     "openenv-core>=0.2.0"
 ]
-
+ 
 [project.scripts]
 server = "server.app:main"
 
 [tool.setuptools]
 packages = ["api", "env", "models", "tasks", "graders", "baseline", "server"]
+
