@@ -3,7 +3,7 @@
 ## Overview
 DataClean RL is a reinforcement learning environment designed for real-world data cleaning tasks. Agents interact with messy datasets and learn to clean them efficiently using structured actions under budget constraints.
 
-## Tasks
+## Taskss
 The environment includes three levels of difficulty:
 
 - **Easy:** Missing values and duplicate rows  
